@@ -1,0 +1,45 @@
+
+repositories {
+    google()
+    jcenter()
+    mavenCentral()
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+    maven { url 'https://maven.google.com' }
+    maven { url 'https://maven.fabric.io/public' }
+    maven { url 'https://jitpack.io'}
+
+    flatDir { dirs 'src/main/libs' }
+    flatDir { dirs 'libs' }
+
+}
+
+
+dependencies {
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation 'androidx.appcompat:appcompat:1.2.0' //or above
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.4.32"
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.madgag.spongycastle:core:1.50.0.0'
+    implementation 'com.madgag.spongycastle:pg:1.50.0.0'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
+    implementation 'com.nimbusds:nimbus-jose-jwt:7.0.1'
+
+    implementation (name:'Paymev2',ext:'aar')
+    implementation (name:'SecureKey3DS',ext:'aar')
+    implementation (name:'MastercardSonic',ext:'aar')
+    implementation (name:'VisaSensoryBranding',ext:'aar')
+}
+
+android {
+  compileSdkVersion 28
+  defaultConfig {
+      targetSdkVersion 28
+      multiDexEnabled true
+  }
+}

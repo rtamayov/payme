@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="com.os.payme" version="2.0.0" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<name>CordovaPluginPaymev2</name>
+
+	<js-module name="CordovaPluginPaymev2" src="www/CordovaPluginPaymev2.js">
+		<clobbers target="cordova.plugins.CordovaPluginPaymev2"/>
+	</js-module>
+
+	<platform name="android">
+		<config-file parent="/*" target="res/xml/config.xml">
+			<feature name="CordovaPluginPaymev2">
+				<param name="android-package" value="com.os.payme.CordovaPluginPaymev2"/>
+			</feature>
+		</config-file>
+		<config-file parent="/*" target="AndroidManifest.xml"/>
+		<source-file src="src/android/CordovaPluginPaymev2.java" target-dir="src/com/os/payme/CordovaPluginPaymev2"/>
+
+		<framework  src="src/android/file.gradle" custom="true" type="gradleReference"/>
+
+		<resource-file src="src/android/aar/Paymev2.aar" target="libs/Paymev2.aar"/>
+		<resource-file src="src/android/aar/MastercardSonic.aar" target="libs/MastercardSonic.aar"/>
+		<resource-file src="src/android/aar/SecureKey3DS.aar" target="libs/SecureKey3DS.aar"/>
+		<resource-file src="src/android/aar/VisaSensoryBranding.aar" target="libs/VisaSensoryBranding.aar"/>
+	</platform>
+	
+	<platform name="ios">
+		<config-file parent="/*" target="config.xml">
+			<feature name="CordovaPluginPaymev2">
+				<param name="ios-package" value="CordovaPluginPaymev2" />
+			</feature>
+			<preference name="pods_ios_min_version" value="9.0"/>
+			<preference name="pods_use_frameworks" value="true"/>
+		</config-file>
+
+		<header-file src="src/ios/PaymeViewControllerv2.h" />
+		<source-file src="src/ios/PaymeViewControllerv2.m" />
+		<header-file src="src/ios/CordovaPluginPaymev2.h" />
+		<source-file src="src/ios/CordovaPluginPaymev2.m" />
+
+		<hook type="after_plugin_install" src="hooks/embed_framework_hook.js" />
+		<hook type="before_plugin_install" src="hooks/edit_build_json.js" />
+
+		<framework src="src/ios/framework/Paymev2.xcframework" custom="true" embed="true" />
+		<framework src="src/ios/framework/SecureKey3DS.xcframework" custom="true" embed="true" /> 
+		<framework src="src/ios/framework/MastercardSonic.xcframework" custom="true" embed="true" /> 
+		<framework src="src/ios/framework/VisaSensoryBranding.xcframework" custom="true" embed="true" /> 
+
+	</platform>
+</plugin>

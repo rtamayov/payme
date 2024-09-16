@@ -1,0 +1,11 @@
+framework module SecureKey3DS {
+  umbrella header "SecureKey3DS.h"
+
+  export *
+  module * { export * }
+}
+
+module SecureKey3DS.Swift {
+  header "SecureKey3DS-Swift.h"
+  requires objc
+}

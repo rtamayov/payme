@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="460px" height="350px" viewBox="0 0 460 350" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Frame 30</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Frame-30" transform="translate(-310.000000, -760.000000)">
+            <g id="Group-9" transform="translate(446.000000, 923.000000)">
+                <path d="M64,57.5 C74.217,57.5 82.5,65.783 82.5,76 C82.5,86.217 74.217,94.5 64,94.5 C53.783,94.5 45.5,86.217 45.5,76 C45.5,65.783 53.783,57.5 64,57.5" id="Fill-1" fill="#FF5F00"></path>
+                <path d="M90.5,98 C95.747,98 100,102.253 100,107.5 C100,112.747 95.747,117 90.5,117 C85.253,117 81,112.747 81,107.5 C81,102.253 85.253,98 90.5,98" id="Fill-3" fill="#FF5F00"></path>
+                <path d="M38.5,27 C48.165,27 56,34.835 56,44.5 C56,54.165 48.165,62 38.5,62 C28.835,62 21,54.165 21,44.5 C21,34.835 28.835,27 38.5,27" id="Fill-5" fill="#FF5F00"></path>
+                <path d="M16,0 C24.836,0 32,7.164 32,16 C32,24.836 24.836,32 16,32 C7.164,32 0,24.836 0,16 C0,7.164 7.164,0 16,0" id="Fill-7" fill="#F79E1B"></path>
+            </g>
+        </g>
+    </g>
+</svg>

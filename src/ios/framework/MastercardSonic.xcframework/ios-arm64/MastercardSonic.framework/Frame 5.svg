@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="460px" height="351px" viewBox="0 0 460 351" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 63.1 (92452) - https://sketch.com -->
+    <title>Frame 5</title>
+    <desc>Created with Sketch.</desc>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Frame-5" transform="translate(-310.000000, -759.000000)">
+            <g id="Group-7" transform="translate(348.500000, 805.000000)">
+                <path d="M123.5,0 C191.707,0 247,55.293 247,123.5 C247,191.707 191.707,247 123.5,247 C55.293,247 0,191.707 0,123.5 C0,55.293 55.293,0 123.5,0" id="Fill-1" fill="#EB001B"></path>
+                <path d="M259.5,0 C327.707,0 383,55.293 383,123.5 C383,191.707 327.707,247 259.5,247 C191.293,247 136,191.707 136,123.5 C136,55.293 191.293,0 259.5,0" id="Fill-3" fill="#F79E1B"></path>
+                <path d="M247,123.5 C247,80.42 224.938,42.499 191.5,20.4 C158.062,42.499 136,80.42 136,123.5 C136,166.58 158.062,204.501 191.5,226.6 C224.938,204.501 247,166.58 247,123.5" id="Fill-5" fill="#FF5F00"></path>
+            </g>
+        </g>
+    </g>
+</svg>

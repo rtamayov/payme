@@ -1,0 +1,2 @@
+# cordova-plugin-paymev2
+ 

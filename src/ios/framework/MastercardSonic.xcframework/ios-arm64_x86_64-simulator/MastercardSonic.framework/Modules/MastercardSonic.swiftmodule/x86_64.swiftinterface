@@ -1,0 +1,63 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.5.2 (swiftlang-1300.0.47.5 clang-1300.0.29.30)
+// swift-module-flags: -target x86_64-apple-ios11.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name MastercardSonic
+import AVFoundation
+import Foundation
+@_exported import MastercardSonic
+import Swift
+import UIKit
+import _Concurrency
+@objc public enum MCSonicStatus : Swift.Int, Swift.Error {
+  case success = 800
+  case errorWhilePreparing = 901
+  case errorWhilePreparingSound = 902
+  case errorWhilePreparingAnimation = 903
+  case errorAlreadyPlaying = 904
+  case errorWhilePlaying = 905
+  case errorWhilePlayingSound = 906
+  case errorWhilePlayingAnimation = 907
+  case errorNotPrepared = 908
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public static var _nsErrorDomain: Swift.String {
+    get
+  }
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum MCSonicType : Swift.Int {
+  case soundAndAnimation
+  case soundOnly
+  case animationOnly
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc final public class MCSonicController : ObjectiveC.NSObject {
+  @objc final public var isPlaying: Swift.Bool {
+    get
+  }
+  @objc final public func prepare(with sonicType: MastercardSonic.MCSonicType = .soundAndAnimation, completion: ((MastercardSonic.MCSonicStatus) -> Swift.Void)?)
+  @objc final public func play(with sonicView: MastercardSonic.MCSonicView?, completion: ((MastercardSonic.MCSonicStatus) -> Swift.Void)?)
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @IBDesignable @_Concurrency.MainActor(unsafe) final public class MCSonicView : UIKit.UIView {
+  @objc @IBInspectable @_Concurrency.MainActor(unsafe) final public var keepBackground: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc convenience dynamic public init()
+  @_Concurrency.MainActor(unsafe) @objc override final public func layoutSubviews()
+  @objc deinit
+}
+extension MastercardSonic.MCSonicStatus : Swift.Equatable {}
+extension MastercardSonic.MCSonicStatus : Swift.Hashable {}
+extension MastercardSonic.MCSonicStatus : Swift.RawRepresentable {}
+extension MastercardSonic.MCSonicType : Swift.Equatable {}
+extension MastercardSonic.MCSonicType : Swift.Hashable {}
+extension MastercardSonic.MCSonicType : Swift.RawRepresentable {}

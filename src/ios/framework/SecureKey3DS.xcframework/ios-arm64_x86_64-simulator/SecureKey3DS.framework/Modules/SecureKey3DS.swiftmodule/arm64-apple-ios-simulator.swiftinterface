@@ -1,0 +1,1800 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.7.2 (swiftlang-5.7.2.135.5 clang-1400.0.29.51)
+// swift-module-flags: -target arm64-apple-ios11-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -module-name SecureKey3DS
+// swift-module-flags-ignorable: -enable-bare-slash-regex
+import AdSupport
+import CommonCrypto
+import Compression
+import CoreLocation
+import Darwin
+import Foundation
+@_exported import SecureKey3DS
+import Security
+import Swift
+import SystemConfiguration
+import UIKit
+import WebKit
+import _Concurrency
+import _StringProcessing
+final public class GCM : SecureKey3DS.BlockMode {
+  public enum Mode {
+    case combined
+    case detached
+    public static func == (a: SecureKey3DS.GCM.Mode, b: SecureKey3DS.GCM.Mode) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  final public let options: SecureKey3DS.BlockModeOption
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    case fail
+    public static func == (a: SecureKey3DS.GCM.Error, b: SecureKey3DS.GCM.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  final public var authenticationTag: Swift.Array<Swift.UInt8>?
+  public init(iv: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, tagLength: Swift.Int = 16, mode: SecureKey3DS.GCM.Mode = .detached)
+  convenience public init(iv: Swift.Array<Swift.UInt8>, authenticationTag: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil, mode: SecureKey3DS.GCM.Mode = .detached)
+  final public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+  @objc deinit
+}
+public class TDSClientRequest {
+  public var acquirerMerchantID: Swift.String
+  public var tdsRequestorChallengeInd: Swift.String?
+  public var cardHolderData: SecureKey3DS.CardHolderData
+  public var purchaseData: SecureKey3DS.PurchaseData
+  public init(acquirerMerchantID: Swift.String, tdsRequestorChallengeInd: Swift.String? = nil, cardHolderData: SecureKey3DS.CardHolderData, purchaseData: SecureKey3DS.PurchaseData)
+  @objc deinit
+}
+public class CardHolderData {
+  public var cardholderName: Swift.String?
+  public var acctID: Swift.String?
+  public var acctType: Swift.String?
+  public var acctNumber: Swift.String?
+  public var cardExpiryDate: Swift.String?
+  public var addrMatch: Swift.String?
+  public var billAddrCountry: Swift.String?
+  public var billAddrCity: Swift.String?
+  public var billAddrState: Swift.String?
+  public var billAddrPostCode: Swift.String?
+  public var billAddrLine1: Swift.String?
+  public var billAddrLine2: Swift.String?
+  public var billAddrLine3: Swift.String?
+  public var shipAddrCountry: Swift.String?
+  public var shipAddrCity: Swift.String?
+  public var shipAddrState: Swift.String?
+  public var shipAddrPostCode: Swift.String?
+  public var shipAddrLine1: Swift.String?
+  public var shipAddrLine2: Swift.String?
+  public var shipAddrLine3: Swift.String?
+  public var homePhone: Swift.String?
+  public var mobilePhone: Swift.String?
+  public var workPhone: Swift.String?
+  public var email: Swift.String?
+  public init()
+  @objc deinit
+}
+public class PurchaseData {
+  public var messageCategory: SecureKey3DS.MessageCategory
+  public var tsdRequestorAuthInd: Swift.String?
+  public var transType: Swift.String?
+  public var purchaseNumber: Swift.String?
+  public var purchaseAmount: Swift.String?
+  public var purchaseCurrency: Swift.String?
+  public var purchaseExponent: Swift.String?
+  public var purchaseDate: Swift.String?
+  public init()
+  @objc deinit
+}
+public enum MessageCategory {
+  case PA
+  case NPA
+  public static func == (a: SecureKey3DS.MessageCategory, b: SecureKey3DS.MessageCategory) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public struct CheckBoxColor {
+  public init(activeColor: UIKit.UIColor, inactiveColor: UIKit.UIColor, inactiveBorderColor: UIKit.UIColor, checkMarkColor: UIKit.UIColor)
+}
+public enum SecureRandomError : Swift.Error {
+  case failed(status: Darwin.OSStatus)
+  case countMustBeGreaterThanZero
+}
+public struct SecureRandom {
+  public static func generate(count: Swift.Int) throws -> Foundation.Data
+}
+final public class Blowfish {
+  public enum Error : Swift.Error {
+    case dataPaddingRequired
+    case invalidKeyOrInitializationVector
+    case invalidInitializationVector
+    case invalidBlockMode
+    public static func == (a: SecureKey3DS.Blowfish.Error, b: SecureKey3DS.Blowfish.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static let blockSize: Swift.Int
+  final public let keySize: Swift.Int
+  public init(key: Swift.Array<Swift.UInt8>, blockMode: SecureKey3DS.BlockMode = CBC(iv: Array<UInt8>(repeating: 0, count: Blowfish.blockSize)), padding: SecureKey3DS.Padding) throws
+  @objc deinit
+}
+extension SecureKey3DS.Blowfish : SecureKey3DS.Cipher {
+  final public func encrypt<C>(_ bytes: C) throws -> Swift.Array<Swift.UInt8> where C : Swift.Collection, C.Element == Swift.UInt8, C.Index == Swift.Int
+  final public func decrypt<C>(_ bytes: C) throws -> Swift.Array<Swift.UInt8> where C : Swift.Collection, C.Element == Swift.UInt8, C.Index == Swift.Int
+}
+public protocol JSONWebEncryptionHeader {
+  var alg: Swift.String { get }
+  var enc: Swift.String { get }
+  var epk: SecureKey3DS.ECPublicKey? { get }
+  var apu: Swift.String? { get }
+  var apv: Swift.String? { get }
+  subscript(index: Swift.String) -> Any? { get }
+  func jsonSerializedData() -> Foundation.Data
+  func allParameters() -> [Swift.String : Any]
+}
+final public class AES {
+  public enum Error : Swift.Error {
+    case invalidKeySize
+    case dataPaddingRequired
+    case invalidData
+    public static func == (a: SecureKey3DS.AES.Error, b: SecureKey3DS.AES.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Variant : Swift.Int {
+    case aes128, aes192, aes256
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  public static let blockSize: Swift.Int
+  final public let keySize: Swift.Int
+  final public let variant: SecureKey3DS.AES.Variant
+  public init(key: Swift.Array<Swift.UInt8>, blockMode: SecureKey3DS.BlockMode, padding: SecureKey3DS.Padding = .pkcs7) throws
+  @objc deinit
+}
+extension SecureKey3DS.AES : SecureKey3DS.Cipher {
+  final public func encrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  final public func decrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+public enum JWKKeyType : Swift.String, Swift.Codable {
+  case RSA
+  case OCT
+  case EC
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol JWK : Swift.Decodable, Swift.Encodable {
+  var keyType: SecureKey3DS.JWKKeyType { get }
+  var parameters: [Swift.String : Swift.String] { get }
+  subscript(parameter: Swift.String) -> Swift.String? { get }
+  init(data: Foundation.Data) throws
+  func jsonString() -> Swift.String?
+  func jsonData() -> Foundation.Data?
+}
+extension SecureKey3DS.ECPublicKey : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.ECPublicKey : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+extension SecureKey3DS.ECPrivateKey : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.ECPrivateKey : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct EncryptionContext {
+}
+public struct SymmetricEncryptionContext {
+}
+public struct Encrypter<KeyType> {
+  public init?(keyEncryptionAlgorithm: SecureKey3DS.AsymmetricKeyAlgorithm, encryptionKey key: KeyType, contentEncyptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm)
+  @available(*, deprecated, message: "Use `init?(keyEncryptionAlgorithm:encryptionKey:contentEncyptionAlgorithm:)` instead")
+  public init?(keyEncryptionAlgorithm: SecureKey3DS.AsymmetricKeyAlgorithm, keyEncryptionKey kek: KeyType, contentEncyptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm)
+}
+extension Foundation.Data : SecureKey3DS.ExpressibleAsECPublicKeyComponents {
+  public static func representing(ecPublicKeyComponents components: SecureKey3DS.ECPublicKeyComponents) throws -> Foundation.Data
+  public func ecPublicKeyComponents() throws -> SecureKey3DS.ECPublicKeyComponents
+}
+@objc @_Concurrency.MainActor(unsafe) open class RadioButtonContainerView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var buttonContainer: SecureKey3DS.RadioButtonContainer {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func didAddSubview(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func willRemoveSubview(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func addButton(_ button: SecureKey3DS.RadioButtonContainer.Kind)
+  @_Concurrency.MainActor(unsafe) public func removeButton(_ view: SecureKey3DS.RadioButtonContainer.Kind)
+  @objc deinit
+}
+extension Swift.String {
+  public var bytes: Swift.Array<Swift.UInt8> {
+    get
+  }
+  public func md5() -> Swift.String
+  public func sha1() -> Swift.String
+  public func sha224() -> Swift.String
+  public func sha256() -> Swift.String
+  public func sha384() -> Swift.String
+  public func sha512() -> Swift.String
+  public func sha3(_ variant: SecureKey3DS.SHA3.Variant) -> Swift.String
+  public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.String
+  public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.String
+  public func crc16(seed: Swift.UInt16? = nil) -> Swift.String
+  public func encrypt(cipher: SecureKey3DS.Cipher) throws -> Swift.String
+  public func encryptToBase64(cipher: SecureKey3DS.Cipher) throws -> Swift.String?
+  public func authenticate<A>(with authenticator: A) throws -> Swift.String where A : SecureKey3DS.Authenticator
+}
+public struct PCBC : SecureKey3DS.BlockMode {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: SecureKey3DS.PCBC.Error, b: SecureKey3DS.PCBC.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public init(iv: Swift.Array<Swift.UInt8>)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public struct CTR {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: SecureKey3DS.CTR.Error, b: SecureKey3DS.CTR.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public init(iv: Swift.Array<Swift.UInt8>, counter: Swift.Int = 0)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+extension Swift.Array {
+  public init(reserveCapacity: Swift.Int)
+}
+extension Swift.Array where Element == Swift.UInt8 {
+  public init(hex: Swift.String)
+  public func toHexString() -> Swift.String
+}
+extension Swift.Array where Element == Swift.UInt8 {
+  @available(*, deprecated)
+  public func chunks(size chunksize: Swift.Int) -> Swift.Array<Swift.Array<Element>>
+  public func md5() -> [Element]
+  public func sha1() -> [Element]
+  public func sha224() -> [Element]
+  public func sha256() -> [Element]
+  public func sha384() -> [Element]
+  public func sha512() -> [Element]
+  public func sha2(_ variant: SecureKey3DS.SHA2.Variant) -> [Element]
+  public func sha3(_ variant: SecureKey3DS.SHA3.Variant) -> [Element]
+  public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  public func crc16(seed: Swift.UInt16? = nil) -> Swift.UInt16
+  public func encrypt(cipher: SecureKey3DS.Cipher) throws -> [Element]
+  public func decrypt(cipher: SecureKey3DS.Cipher) throws -> [Element]
+  public func authenticate<A>(with authenticator: A) throws -> [Element] where A : SecureKey3DS.Authenticator
+}
+public enum PKCS5 {
+}
+extension Security.SecKey : SecureKey3DS.ExpressibleAsRSAPublicKeyComponents {
+  public static func representing(rsaPublicKeyComponents components: SecureKey3DS.RSAPublicKeyComponents) throws -> Self
+  public func rsaPublicKeyComponents() throws -> SecureKey3DS.RSAPublicKeyComponents
+}
+public enum CipherError : Swift.Error {
+  case encrypt
+  case decrypt
+  public static func == (a: SecureKey3DS.CipherError, b: SecureKey3DS.CipherError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public protocol Cipher : AnyObject {
+  var keySize: Swift.Int { get }
+  func encrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  func encrypt(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  func decrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  func decrypt(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+extension SecureKey3DS.Cipher {
+  public func encrypt(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  public func decrypt(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+public struct Signer<KeyType> {
+  public init?(signingAlgorithm: SecureKey3DS.SignatureAlgorithm, privateKey: KeyType)
+}
+extension Foundation.Data {
+  public func checksum() -> Swift.UInt16
+  public func md5() -> Foundation.Data
+  public func sha1() -> Foundation.Data
+  public func sha224() -> Foundation.Data
+  public func sha256() -> Foundation.Data
+  public func sha384() -> Foundation.Data
+  public func sha512() -> Foundation.Data
+  public func sha3(_ variant: SecureKey3DS.SHA3.Variant) -> Foundation.Data
+  public func crc32(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Foundation.Data
+  public func crc32c(seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Foundation.Data
+  public func crc16(seed: Swift.UInt16? = nil) -> Foundation.Data
+  public func encrypt(cipher: SecureKey3DS.Cipher) throws -> Foundation.Data
+  public func decrypt(cipher: SecureKey3DS.Cipher) throws -> Foundation.Data
+  public func authenticate(with authenticator: SecureKey3DS.Authenticator) throws -> Foundation.Data
+}
+extension Foundation.Data {
+  public init(hex: Swift.String)
+  public var bytes: Swift.Array<Swift.UInt8> {
+    get
+  }
+  public func toHexString() -> Swift.String
+}
+@_inheritsConvenienceInitializers public class RadioButtonContainer : SecureKey3DS.RadioCheckboxBaseContainer<SecureKey3DS.RadioButton> {
+  weak public var delegate: SecureKey3DS.RadioButtonDelegate? {
+    get
+    set
+  }
+  public var selectedButton: SecureKey3DS.RadioButtonContainer.Kind? {
+    get
+    set
+  }
+  @discardableResult
+  override public func addButton(_ button: SecureKey3DS.RadioButtonContainer.Kind) -> Swift.Bool
+  public var radioButtonColor: SecureKey3DS.RadioButtonColor? {
+    get
+    set
+  }
+  public var radioCircleStyle: SecureKey3DS.RadioButtonCircleStyle? {
+    get
+    set
+  }
+  public func setEachRadioButtonColor(_ body: (SecureKey3DS.RadioButtonContainer.Kind) -> SecureKey3DS.RadioButtonColor)
+  public func setEachRadioButtonCircleStyle(_ body: (SecureKey3DS.RadioButtonContainer.Kind) -> SecureKey3DS.RadioButtonCircleStyle)
+  override public init(_ buttons: [SecureKey3DS.RadioButton] = super)
+  @objc deinit
+}
+extension Foundation.Data : SecureKey3DS.ExpressibleAsRSAPublicKeyComponents {
+  public static func representing(rsaPublicKeyComponents components: SecureKey3DS.RSAPublicKeyComponents) throws -> Foundation.Data
+  public func rsaPublicKeyComponents() throws -> SecureKey3DS.RSAPublicKeyComponents
+}
+public enum TDSEnvironment {
+  case DEVELOPMENT
+  case UAT
+  case PRODUCTION
+  public static func == (a: SecureKey3DS.TDSEnvironment, b: SecureKey3DS.TDSEnvironment) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc @_Concurrency.MainActor(unsafe) open class CheckboxButtonContainerView : UIKit.UIView {
+  @_Concurrency.MainActor(unsafe) public var buttonContainer: SecureKey3DS.CheckboxButtonContainer {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func didAddSubview(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic open func willRemoveSubview(_ subview: UIKit.UIView)
+  @_Concurrency.MainActor(unsafe) public func addButton(_ button: SecureKey3DS.CheckboxButtonContainer.Kind)
+  @_Concurrency.MainActor(unsafe) public func removeButton(_ button: SecureKey3DS.CheckboxButtonContainer.Kind)
+  @objc deinit
+}
+public struct CFB : SecureKey3DS.BlockMode {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: SecureKey3DS.CFB.Error, b: SecureKey3DS.CFB.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public init(iv: Swift.Array<Swift.UInt8>)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public struct JWKSet {
+  public let keys: [SecureKey3DS.JWK]
+  public init(keys: [SecureKey3DS.JWK])
+  public init(data: Foundation.Data) throws
+  public func jsonString() -> Swift.String?
+  public func jsonData() -> Foundation.Data?
+}
+extension SecureKey3DS.JWKSet : Swift.Collection {
+  public typealias ArrayType = [SecureKey3DS.JWK]
+  public typealias Element = SecureKey3DS.JWKSet.ArrayType.Element
+  public typealias Index = SecureKey3DS.JWKSet.ArrayType.Index
+  public typealias Iterator = SecureKey3DS.JWKSet.ArrayType.Iterator
+  public var startIndex: SecureKey3DS.JWKSet.Index {
+    get
+  }
+  public var endIndex: SecureKey3DS.JWKSet.Index {
+    get
+  }
+  public subscript(index: SecureKey3DS.JWKSet.Index) -> SecureKey3DS.JWKSet.Element {
+    get
+  }
+  public func index(after index: SecureKey3DS.JWKSet.Index) -> SecureKey3DS.JWKSet.Index
+  public func makeIterator() -> Swift.IndexingIterator<SecureKey3DS.JWKSet.ArrayType>
+  public typealias Indices = Swift.DefaultIndices<SecureKey3DS.JWKSet>
+  public typealias SubSequence = Swift.Slice<SecureKey3DS.JWKSet>
+}
+extension SecureKey3DS.JWKSet : Swift.ExpressibleByArrayLiteral {
+  public typealias ArrayLiteralElement = SecureKey3DS.JWKSet.Element
+  public init(arrayLiteral elements: SecureKey3DS.JWKSet.ArrayLiteralElement...)
+}
+public struct Verifier {
+  public init?<KeyType>(verifyingAlgorithm: SecureKey3DS.SignatureAlgorithm, publicKey: KeyType)
+}
+public struct EcdhEsJweHeader : SecureKey3DS.JSONWebEncryptionHeader {
+  public init(alg: Swift.String, enc: Swift.String)
+  public init(parameters: [Swift.String : Any]) throws
+  public init(jsonData: Foundation.Data) throws
+  public init(b64uData: Foundation.Data) throws
+  public init(cloneFrom: SecureKey3DS.JSONWebEncryptionHeader) throws
+  public func jsonSerializedData() -> Foundation.Data
+  public func allParameters() -> [Swift.String : Any]
+}
+extension SecureKey3DS.EcdhEsJweHeader {
+  public var alg: Swift.String {
+    get
+    set
+  }
+  public var enc: Swift.String {
+    get
+    set
+  }
+  public var epk: SecureKey3DS.ECPublicKey? {
+    get
+    set
+  }
+  public var apu: Swift.String? {
+    get
+    set
+  }
+  public var apv: Swift.String? {
+    get
+    set
+  }
+}
+extension SecureKey3DS.EcdhEsJweHeader {
+  public subscript(index: Swift.String) -> Any? {
+    get
+    set
+  }
+}
+public struct OFB : SecureKey3DS.BlockMode {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: SecureKey3DS.OFB.Error, b: SecureKey3DS.OFB.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public init(iv: Swift.Array<Swift.UInt8>)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public enum RadioCheckboxStyle {
+  case rounded(radius: CoreFoundation.CGFloat), square, circle
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable @_Concurrency.MainActor(unsafe) public class RadioCheckboxBaseButton : UIKit.UIButton {
+  @objc @_Concurrency.MainActor(unsafe) dynamic public var isOn: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor(unsafe) convenience public init?(type buttonType: UIKit.UIButton.ButtonType)
+  @_Concurrency.MainActor(unsafe) public var style: SecureKey3DS.RadioCheckboxStyle {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) public func updateSelectionState()
+  @objc deinit
+}
+public protocol CommonHeaderParameterSpace {
+  var jku: Foundation.URL? { get set }
+  var jwk: Swift.String? { get set }
+  var kid: Swift.String? { get set }
+  var x5u: Foundation.URL? { get set }
+  var x5c: [Swift.String]? { get set }
+  var x5t: Swift.String? { get set }
+  var x5tS256: Swift.String? { get set }
+  var typ: Swift.String? { get set }
+  var cty: Swift.String? { get set }
+  var crit: [Swift.String]? { get set }
+}
+extension Foundation.Data : SecureKey3DS.ExpressibleAsECPrivateKeyComponents {
+  public static func representing(ecPrivateKeyComponents components: SecureKey3DS.ECPrivateKeyComponents) throws -> Foundation.Data
+  public func ecPrivateKeyComponents() throws -> SecureKey3DS.ECPrivateKeyComponents
+}
+final public class Rabbit {
+  public enum Error : Swift.Error {
+    case invalidKeyOrInitializationVector
+    public static func == (a: SecureKey3DS.Rabbit.Error, b: SecureKey3DS.Rabbit.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static let ivSize: Swift.Int
+  public static let keySize: Swift.Int
+  public static let blockSize: Swift.Int
+  final public var keySize: Swift.Int {
+    get
+  }
+  convenience public init(key: Swift.Array<Swift.UInt8>) throws
+  public init(key: Swift.Array<Swift.UInt8>, iv: Swift.Array<Swift.UInt8>?) throws
+  @objc deinit
+}
+extension SecureKey3DS.Rabbit : SecureKey3DS.Cipher {
+  final public func encrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  final public func decrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+@_hasMissingDesignatedInitializers public class BlockDecryptor : SecureKey3DS.Cryptor, SecureKey3DS.Updatable {
+  public func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+  public func seek(to position: Swift.Int) throws
+  @objc deinit
+}
+public protocol Updatable {
+  mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool) throws -> Swift.Array<Swift.UInt8>
+  mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool, output: (_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+}
+extension SecureKey3DS.Updatable {
+  public mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false, output: (_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+  public mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+  public mutating func update(withBytes bytes: Swift.Array<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+  public mutating func update(withBytes bytes: Swift.Array<Swift.UInt8>, isLast: Swift.Bool = false, output: (_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+  public mutating func finish(withBytes bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  public mutating func finish(withBytes bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  public mutating func finish() throws -> Swift.Array<Swift.UInt8>
+  public mutating func finish(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, output: (_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+  public mutating func finish(withBytes bytes: Swift.Array<Swift.UInt8>, output: (_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+  public mutating func finish(output: (Swift.Array<Swift.UInt8>) -> Swift.Void) throws
+}
+public struct JWSHeader {
+  public init(algorithm: SecureKey3DS.SignatureAlgorithm)
+  public init(parameters: [Swift.String : Any]) throws
+}
+extension SecureKey3DS.JWSHeader {
+  public var algorithm: SecureKey3DS.SignatureAlgorithm? {
+    get
+  }
+}
+extension SecureKey3DS.JWSHeader : SecureKey3DS.CommonHeaderParameterSpace {
+  public var jku: Foundation.URL? {
+    get
+    set
+  }
+  public var jwk: Swift.String? {
+    get
+    set
+  }
+  public var kid: Swift.String? {
+    get
+    set
+  }
+  public var x5u: Foundation.URL? {
+    get
+    set
+  }
+  public var x5c: [Swift.String]? {
+    get
+    set
+  }
+  public var x5t: Swift.String? {
+    get
+    set
+  }
+  public var x5tS256: Swift.String? {
+    get
+    set
+  }
+  public var typ: Swift.String? {
+    get
+    set
+  }
+  public var cty: Swift.String? {
+    get
+    set
+  }
+  public var crit: [Swift.String]? {
+    get
+    set
+  }
+}
+final public class ChaCha20 {
+  public enum Error : Swift.Error {
+    case invalidKeyOrInitializationVector
+    case notSupported
+    public static func == (a: SecureKey3DS.ChaCha20.Error, b: SecureKey3DS.ChaCha20.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static let blockSize: Swift.Int
+  final public let keySize: Swift.Int
+  public init(key: Swift.Array<Swift.UInt8>, iv nonce: Swift.Array<Swift.UInt8>) throws
+  @objc deinit
+}
+extension SecureKey3DS.ChaCha20 : SecureKey3DS.Cipher {
+  final public func encrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  final public func decrypt(_ bytes: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+extension SecureKey3DS.ChaCha20 {
+  public struct ChaChaEncryptor : SecureKey3DS.Cryptor, SecureKey3DS.Updatable {
+    public mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+    public func seek(to: Swift.Int) throws
+  }
+}
+extension SecureKey3DS.ChaCha20 {
+  public struct ChaChaDecryptor : SecureKey3DS.Cryptor, SecureKey3DS.Updatable {
+    public mutating func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = true) throws -> Swift.Array<Swift.UInt8>
+    public func seek(to: Swift.Int) throws
+  }
+}
+extension SecureKey3DS.ChaCha20 : SecureKey3DS.Cryptors {
+  final public func makeEncryptor() -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+  final public func makeDecryptor() -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+}
+public struct RadioButtonCircleStyle {
+  public init(outerCircle: CoreFoundation.CGFloat = 16, innerCircle: CoreFoundation.CGFloat = 7, outerCircleBorder: CoreFoundation.CGFloat = 2, contentPadding: CoreFoundation.CGFloat = 6)
+  public init(outerCircle: CoreFoundation.CGFloat, innerCircle: CoreFoundation.CGFloat)
+  public init(outerCircle: CoreFoundation.CGFloat, innerCircle: CoreFoundation.CGFloat, outerCircleBorder: CoreFoundation.CGFloat)
+}
+public class CBCMAC : SecureKey3DS.Authenticator {
+  public enum Error : Swift.Error {
+    case wrongKeyLength
+    public static func == (a: SecureKey3DS.CBCMAC.Error, b: SecureKey3DS.CBCMAC.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(key: Swift.Array<Swift.UInt8>) throws
+  public func authenticate(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+final public class Poly1305 : SecureKey3DS.Authenticator {
+  public enum Error : Swift.Error {
+    case authenticateError
+    public static func == (a: SecureKey3DS.Poly1305.Error, b: SecureKey3DS.Poly1305.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static let blockSize: Swift.Int
+  public init(key: Swift.Array<Swift.UInt8>)
+  final public func authenticate(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+final public class SHA3 {
+  final public let blockSize: Swift.Int
+  final public let digestLength: Swift.Int
+  final public let markByte: Swift.UInt8
+  public enum Variant {
+    case sha224, sha256, sha384, sha512, keccak224, keccak256, keccak384, keccak512
+    public var outputLength: Swift.Int {
+      get
+    }
+    public static func == (a: SecureKey3DS.SHA3.Variant, b: SecureKey3DS.SHA3.Variant) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(variant: SecureKey3DS.SHA3.Variant)
+  final public func calculate(for bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+extension SecureKey3DS.SHA3 : SecureKey3DS.Updatable {
+  final public func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+}
+public enum SignatureAlgorithm : Swift.String {
+  case RS256
+  case RS512
+  case ES256
+  case ES384
+  case ES512
+  @available(iOS 11, *)
+  case PS256
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AsymmetricKeyAlgorithm : Swift.String, Swift.CaseIterable {
+  case RSA1_5
+  case RSAOAEP
+  case RSAOAEP256
+  case direct
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [SecureKey3DS.AsymmetricKeyAlgorithm]
+  public typealias RawValue = Swift.String
+  public static var allCases: [SecureKey3DS.AsymmetricKeyAlgorithm] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SymmetricKeyAlgorithm : Swift.String {
+  case A256CBCHS512
+  case A128CBCHS256
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum HMACAlgorithm : Swift.String {
+  case SHA512
+  case SHA256
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum CompressionAlgorithm : Swift.String {
+  case DEFLATE
+  case NONE
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol CheckboxButtonDelegate : AnyObject {
+  func chechboxButtonDidSelect(_ button: SecureKey3DS.CheckboxButton)
+  func chechboxButtonDidDeselect(_ button: SecureKey3DS.CheckboxButton)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class CheckboxButton : SecureKey3DS.RadioCheckboxBaseButton {
+  @_Concurrency.MainActor(unsafe) weak public var delegate: SecureKey3DS.CheckboxButtonDelegate?
+  @_Concurrency.MainActor(unsafe) public var checkBoxColor: SecureKey3DS.CheckBoxColor! {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) public var checkboxLine: SecureKey3DS.CheckboxLineStyle {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @objc deinit
+}
+extension SecureKey3DS.ECCurveType {
+  public var bitLength: Swift.Int {
+    get
+  }
+}
+extension SecureKey3DS.ECPrivateKey {
+  public func getPublic() -> SecureKey3DS.ECPublicKey
+  public func isCorrespondWith(_ key: SecureKey3DS.ECPublicKey) -> Swift.Bool
+}
+extension SecureKey3DS.ECPrivateKey {
+  public func getPrivate() -> SecureKey3DS.ECPrivateKey
+}
+public func generateECKeyPair(curveType: SecureKey3DS.ECCurveType) throws -> SecureKey3DS.ECKeyPair
+extension SecureKey3DS.JWK {
+  public func dictionarized() -> [Swift.String : Swift.String]
+  public init(dictionary: [Swift.String : Any]) throws
+}
+extension SecureKey3DS.PKCS5 {
+  public struct PBKDF2 {
+    public enum Error : Swift.Error {
+      case invalidInput
+      case derivedKeyTooLong
+      public static func == (a: SecureKey3DS.PKCS5.PBKDF2.Error, b: SecureKey3DS.PKCS5.PBKDF2.Error) -> Swift.Bool
+      public func hash(into hasher: inout Swift.Hasher)
+      public var hashValue: Swift.Int {
+        get
+      }
+    }
+    public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>, iterations: Swift.Int = 4096, keyLength: Swift.Int? = nil, variant: SecureKey3DS.HMAC.Variant = .sha256) throws
+    public func calculate() throws -> Swift.Array<Swift.UInt8>
+  }
+}
+extension SecureKey3DS.RSAPublicKey : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.RSAPublicKey : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+extension SecureKey3DS.RSAPrivateKey : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.RSAPrivateKey : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+@_inheritsConvenienceInitializers final public class CMAC : SecureKey3DS.CBCMAC {
+  override public init(key: Swift.Array<Swift.UInt8>) throws
+  @objc deinit
+}
+public enum ECCurveType : Swift.String, Swift.Codable {
+  case P256
+  case P384
+  case P521
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ECCompression : Swift.UInt8 {
+  case CompressedYEven
+  case CompressedYOdd
+  case Uncompressed
+  case HybridYEven
+  case HybridYOdd
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+extension SecureKey3DS.JWKSet : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.JWKSet : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+public protocol _UInt8Type {
+}
+extension Swift.UInt8 : SecureKey3DS._UInt8Type {
+}
+extension Swift.UInt8 {
+  public func bits() -> [SecureKey3DS.Bit]
+  public func bits() -> Swift.String
+}
+@_hasMissingDesignatedInitializers final public class AEADChaCha20Poly1305 : SecureKey3DS.AEAD {
+  public static let kLen: Swift.Int
+  public static var ivRange: Swift.Range<Swift.Int>
+  public static func encrypt(_ plainText: Swift.Array<Swift.UInt8>, key: Swift.Array<Swift.UInt8>, iv: Swift.Array<Swift.UInt8>, authenticationHeader: Swift.Array<Swift.UInt8>) throws -> (cipherText: Swift.Array<Swift.UInt8>, authenticationTag: Swift.Array<Swift.UInt8>)
+  public static func decrypt(_ cipherText: Swift.Array<Swift.UInt8>, key: Swift.Array<Swift.UInt8>, iv: Swift.Array<Swift.UInt8>, authenticationHeader: Swift.Array<Swift.UInt8>, authenticationTag: Swift.Array<Swift.UInt8>) throws -> (plainText: Swift.Array<Swift.UInt8>, success: Swift.Bool)
+  @objc deinit
+}
+public struct CheckboxLineStyle {
+  public init(checkBoxHeight: CoreFoundation.CGFloat, checkmarkLineWidth: CoreFoundation.CGFloat = -1, padding: CoreFoundation.CGFloat = 6)
+  public init(checkmarkLineWidth: CoreFoundation.CGFloat, padding: CoreFoundation.CGFloat = 6)
+  public init(padding: CoreFoundation.CGFloat = 6)
+  public var size: CoreFoundation.CGSize {
+    get
+  }
+}
+public class RadioCheckboxBaseContainer<T> where T : SecureKey3DS.RadioCheckboxBaseButton {
+  public typealias Kind = T
+  public init(_ buttons: [T] = [])
+  public var allButtons: [T] {
+    get
+  }
+  public func addButtons(_ buttons: [T])
+  public func deselectAll()
+  public var selectedButtons: [T] {
+    get
+    set
+  }
+  @discardableResult
+  public func addButton(_ button: T) -> Swift.Bool
+  @discardableResult
+  public func removeButton(_ button: T) -> Swift.Bool
+  public var buttonStyle: SecureKey3DS.RadioCheckboxStyle? {
+    get
+    set
+  }
+  public func setEachButtonStyle(_ body: (T) -> SecureKey3DS.RadioCheckboxStyle)
+  public func compact()
+  @objc deinit
+}
+public struct EcdhEsJwe : SecureKey3DS.JSONWebEncryption {
+  public let header: SecureKey3DS.JSONWebEncryptionHeader
+  public let encryptedKey: Foundation.Data
+  public let initializationVector: Foundation.Data
+  public var ciphertext: Foundation.Data
+  public var authenticationTag: Foundation.Data
+  public var additionalAuthenticatedData: Foundation.Data
+  public var compactSerializedString: Swift.String {
+    get
+  }
+  public var compactSerializedData: Foundation.Data {
+    get
+  }
+  public func decrypt(key: SecureKey3DS.JWK) throws -> Foundation.Data
+  public func decrypt(privKeyJwkJson: Foundation.Data) throws -> Foundation.Data
+  public func decrypt(privKeyJwkJson: Swift.String) throws -> Foundation.Data
+  public init(plaintext: Foundation.Data, pubKeyJwkJson: Foundation.Data, header: SecureKey3DS.JSONWebEncryptionHeader, options: [Swift.String : Any] = [:]) throws
+  public init(plaintext: Foundation.Data, pubKeyJwkJson: Swift.String, header: SecureKey3DS.JSONWebEncryptionHeader, options: [Swift.String : Any] = [:]) throws
+  public init(plaintext: Foundation.Data, pubKey: SecureKey3DS.ECPublicKey, header: SecureKey3DS.JSONWebEncryptionHeader, options: [Swift.String : Any] = [:]) throws
+  public init(plaintext: Foundation.Data, pubKeyJwkJson: Foundation.Data, headerDic: [Swift.String : Any] = [:], options: [Swift.String : Any] = [:]) throws
+  public init(plaintext: Foundation.Data, pubKeyJwkJson: Swift.String, headerDic: [Swift.String : Any] = [:], options: [Swift.String : Any] = [:]) throws
+  public init(plaintext: Foundation.Data, pubKey: SecureKey3DS.ECPublicKey, headerDic: [Swift.String : Any] = [:], options: [Swift.String : Any] = [:]) throws
+  public init(compactSerializedString: Swift.String) throws
+  public init(compactSerializedData: Foundation.Data) throws
+}
+@objc public class ThreeDSClient : ObjectiveC.NSObject {
+  public var delegate: SecureKey3DS.ThreeDSClientDelegate?
+  public var locale: Swift.String?
+  public init(delegate: SecureKey3DS.ThreeDSClientDelegate, key: Swift.String)
+  public init(key: Swift.String)
+  public func setEnvironment(environment: SecureKey3DS.TDSEnvironment)
+  public func authenticateTransaction(controller: UIKit.UIViewController? = nil, tdsClientRequest: SecureKey3DS.TDSClientRequest)
+  @objc deinit
+}
+extension SecureKey3DS.ThreeDSClient {
+  public func onRespondsTDSRequestor(tdsClientResponse: SecureKey3DS.TDSClientResponse)
+}
+public struct HKDF {
+  public enum Error : Swift.Error {
+    case invalidInput
+    case derivedKeyTooLong
+    public static func == (a: SecureKey3DS.HKDF.Error, b: SecureKey3DS.HKDF.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>? = nil, info: Swift.Array<Swift.UInt8>? = nil, keyLength: Swift.Int? = nil, variant: SecureKey3DS.HMAC.Variant = .sha256) throws
+  public func calculate() throws -> Swift.Array<Swift.UInt8>
+}
+extension SecureKey3DS.ChaCha20 {
+  convenience public init(key: Swift.String, iv: Swift.String) throws
+}
+@_hasMissingDesignatedInitializers public class TDSClientResponse {
+  public var success: Swift.Bool {
+    get
+  }
+  public var errorCode: Swift.String? {
+    get
+  }
+  public var errorComponent: Swift.String? {
+    get
+  }
+  public var errorDescription: Swift.String? {
+    get
+  }
+  public var errorDetail: Swift.String? {
+    get
+  }
+  public var sdkTransID: Swift.String? {
+    get
+  }
+  public var tdsServerTransID: Swift.String? {
+    get
+  }
+  public var dsTransID: Swift.String? {
+    get
+  }
+  public var acsTransID: Swift.String? {
+    get
+  }
+  public var vci: Swift.String? {
+    get
+  }
+  public var eci: Swift.String? {
+    get
+  }
+  public var authValue: Swift.String? {
+    get
+  }
+  public var transStatus: Swift.String? {
+    get
+  }
+  public var authenticated: Swift.Bool? {
+    get
+  }
+  public var madeChallenge: Swift.Bool? {
+    get
+  }
+  public var p_errorCode: Swift.String? {
+    get
+  }
+  public var p_madeChallenge: Swift.Bool? {
+    get
+  }
+  @objc deinit
+}
+public struct JWEHeader {
+  public init(algorithm: SecureKey3DS.AsymmetricKeyAlgorithm, encryptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm)
+  public init(parameters: [Swift.String : Any]) throws
+}
+extension SecureKey3DS.JWEHeader {
+  public var algorithm: SecureKey3DS.AsymmetricKeyAlgorithm? {
+    get
+  }
+  public var encryptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm? {
+    get
+  }
+  public var compressionAlgorithm: SecureKey3DS.CompressionAlgorithm? {
+    get
+  }
+  public var zip: Swift.String? {
+    get
+    set
+  }
+}
+extension SecureKey3DS.JWEHeader : SecureKey3DS.CommonHeaderParameterSpace {
+  public var jku: Foundation.URL? {
+    get
+    set
+  }
+  public var jwk: Swift.String? {
+    get
+    set
+  }
+  public var kid: Swift.String? {
+    get
+    set
+  }
+  public var x5u: Foundation.URL? {
+    get
+    set
+  }
+  public var x5c: [Swift.String]? {
+    get
+    set
+  }
+  public var x5t: Swift.String? {
+    get
+    set
+  }
+  public var x5tS256: Swift.String? {
+    get
+    set
+  }
+  public var typ: Swift.String? {
+    get
+    set
+  }
+  public var cty: Swift.String? {
+    get
+    set
+  }
+  public var crit: [Swift.String]? {
+    get
+    set
+  }
+}
+public struct CCM {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    case invalidParameter
+    case fail
+    public static func == (a: SecureKey3DS.CCM.Error, b: SecureKey3DS.CCM.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public var authenticationTag: Swift.Array<Swift.UInt8>?
+  public init(iv: Swift.Array<Swift.UInt8>, tagLength: Swift.Int, messageLength: Swift.Int, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil)
+  public init(iv: Swift.Array<Swift.UInt8>, tagLength: Swift.Int, messageLength: Swift.Int, authenticationTag: Swift.Array<Swift.UInt8>, additionalAuthenticatedData: Swift.Array<Swift.UInt8>? = nil)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public struct DecryptionContext {
+}
+public struct SymmetricDecryptionContext {
+}
+public struct Decrypter {
+  public init?<KeyType>(keyDecryptionAlgorithm: SecureKey3DS.AsymmetricKeyAlgorithm, decryptionKey key: KeyType, contentDecryptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm)
+  @available(*, deprecated, message: "Use `init?(keyDecryptionAlgorithm:decryptionKey:contentDecyptionAlgorithm:)` instead")
+  public init?<KeyType>(keyDecryptionAlgorithm: SecureKey3DS.AsymmetricKeyAlgorithm, keyDecryptionKey kdk: KeyType, contentDecryptionAlgorithm: SecureKey3DS.SymmetricKeyAlgorithm)
+}
+extension Swift.String {
+  public func decryptBase64ToString(cipher: SecureKey3DS.Cipher) throws -> Swift.String
+  public func decryptBase64(cipher: SecureKey3DS.Cipher) throws -> Swift.Array<Swift.UInt8>
+}
+public protocol Authenticator {
+  func authenticate(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+}
+final public class SHA2 {
+  public enum Variant : Swift.RawRepresentable {
+    case sha224, sha256, sha384, sha512
+    public var digestLength: Swift.Int {
+      get
+    }
+    public var blockSize: Swift.Int {
+      get
+    }
+    public typealias RawValue = Swift.Int
+    public var rawValue: SecureKey3DS.SHA2.Variant.RawValue {
+      get
+    }
+    public init?(rawValue: SecureKey3DS.SHA2.Variant.RawValue)
+  }
+  public init(variant: SecureKey3DS.SHA2.Variant)
+  final public func calculate(for bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+extension SecureKey3DS.SHA2 : SecureKey3DS.Updatable {
+  final public func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+}
+extension Foundation.Data : SecureKey3DS.ExpressibleAsSymmetricKeyComponents {
+  public static func representing(symmetricKeyComponents components: SecureKey3DS.SymmetricKeyComponents) throws -> Foundation.Data
+  public func symmetricKeyComponents() throws -> SecureKey3DS.SymmetricKeyComponents
+}
+extension SecureKey3DS.JWK {
+  public subscript(parameter: Swift.String) -> Swift.String? {
+    get
+  }
+}
+extension SecureKey3DS.JWK {
+  public func jsonString() -> Swift.String?
+  public func jsonData() -> Foundation.Data?
+}
+@_inheritsConvenienceInitializers public class CheckboxButtonContainer : SecureKey3DS.RadioCheckboxBaseContainer<SecureKey3DS.CheckboxButton> {
+  weak public var delegate: SecureKey3DS.CheckboxButtonDelegate? {
+    get
+    set
+  }
+  @discardableResult
+  override public func addButton(_ button: SecureKey3DS.CheckboxButtonContainer.Kind) -> Swift.Bool
+  public var checkboxButtonColor: SecureKey3DS.CheckBoxColor? {
+    get
+    set
+  }
+  public var checkboxLineStyle: SecureKey3DS.CheckboxLineStyle? {
+    get
+    set
+  }
+  public func setEachCheckboxButtonColor(_ body: (SecureKey3DS.CheckboxButtonContainer.Kind) -> SecureKey3DS.CheckBoxColor)
+  public func setEachCheckboxButtonLineStyle(_ body: (SecureKey3DS.CheckboxButtonContainer.Kind) -> SecureKey3DS.CheckboxLineStyle)
+  override public init(_ buttons: [SecureKey3DS.CheckboxButton] = super)
+  @objc deinit
+}
+public typealias ECPublicKeyComponents = (crv: Swift.String, x: Foundation.Data, y: Foundation.Data)
+public typealias ECPrivateKeyComponents = (crv: Swift.String, x: Foundation.Data, y: Foundation.Data, d: Foundation.Data)
+public protocol ExpressibleAsECPublicKeyComponents {
+  static func representing(ecPublicKeyComponents components: SecureKey3DS.ECPublicKeyComponents) throws -> Self
+  func ecPublicKeyComponents() throws -> SecureKey3DS.ECPublicKeyComponents
+}
+public protocol ExpressibleAsECPrivateKeyComponents {
+  static func representing(ecPrivateKeyComponents components: SecureKey3DS.ECPrivateKeyComponents) throws -> Self
+  func ecPrivateKeyComponents() throws -> SecureKey3DS.ECPrivateKeyComponents
+}
+public struct ECPublicKey : SecureKey3DS.JWK {
+  public let keyType: SecureKey3DS.JWKKeyType
+  public let parameters: [Swift.String : Swift.String]
+  public let crv: SecureKey3DS.ECCurveType
+  public let x: Swift.String
+  public let y: Swift.String
+  public init(crv: SecureKey3DS.ECCurveType, x: Swift.String, y: Swift.String, additionalParameters parameters: [Swift.String : Swift.String] = [:])
+  public init(publicKey: SecureKey3DS.ExpressibleAsECPublicKeyComponents, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(data: Foundation.Data) throws
+  public func converted<T>(to type: T.Type) throws -> T where T : SecureKey3DS.ExpressibleAsECPublicKeyComponents
+}
+public struct ECPrivateKey : SecureKey3DS.JWK {
+  public let keyType: SecureKey3DS.JWKKeyType
+  public let parameters: [Swift.String : Swift.String]
+  public let crv: SecureKey3DS.ECCurveType
+  public let x: Swift.String
+  public let y: Swift.String
+  public let privateKey: Swift.String
+  public init(crv: Swift.String, x: Swift.String, y: Swift.String, privateKey: Swift.String, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(privateKey: SecureKey3DS.ExpressibleAsECPrivateKeyComponents, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(data: Foundation.Data) throws
+  public func converted<T>(to type: T.Type) throws -> T where T : SecureKey3DS.ExpressibleAsECPrivateKeyComponents
+}
+public typealias ECKeyPair = SecureKey3DS.ECPrivateKey
+extension Foundation.Data {
+  public init?(base64URLEncoded base64URLString: Swift.String)
+  public init?(base64URLEncoded base64URLData: Foundation.Data)
+  public func base64URLEncodedString() -> Swift.String
+  public func base64URLEncodedData() -> Foundation.Data
+}
+extension Foundation.Data : SecureKey3DS.DataConvertible {
+  public init(_ data: Foundation.Data)
+  public func data() -> Foundation.Data
+}
+public struct JWS {
+  public let header: SecureKey3DS.JWSHeader
+  public let payload: SecureKey3DS.Payload
+  public let signature: Foundation.Data
+  public var compactSerializedString: Swift.String {
+    get
+  }
+  public var compactSerializedData: Foundation.Data {
+    get
+  }
+  public init<KeyType>(header: SecureKey3DS.JWSHeader, payload: SecureKey3DS.Payload, signer: SecureKey3DS.Signer<KeyType>) throws
+  public init(compactSerialization: Swift.String) throws
+  public init(compactSerialization: Foundation.Data) throws
+  @available(*, deprecated, message: "Use `isValid(for verifier:)` instead")
+  public func isValid<KeyType>(for publicKey: KeyType) -> Swift.Bool
+  @available(*, deprecated, message: "Use `validate(using verifier:)` instead")
+  public func validate<KeyType>(with publicKey: KeyType) throws -> SecureKey3DS.JWS
+  public func validate(using verifier: SecureKey3DS.Verifier) throws -> SecureKey3DS.JWS
+  public func isValid(for verifier: SecureKey3DS.Verifier) -> Swift.Bool
+}
+extension SecureKey3DS.JWS : SecureKey3DS.CompactSerializable {
+  public func serialize(to serializer: inout SecureKey3DS.CompactSerializer)
+}
+extension SecureKey3DS.JWS : SecureKey3DS.CompactDeserializable {
+  public static var componentCount: Swift.Int {
+    get
+  }
+  public init(from deserializer: SecureKey3DS.CompactDeserializer) throws
+}
+final public class MD5 {
+  public init()
+  final public func calculate(for bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+extension SecureKey3DS.MD5 : SecureKey3DS.Updatable {
+  final public func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+}
+public protocol DataConvertible {
+  init?(_ data: Foundation.Data)
+  func data() -> Foundation.Data
+}
+public typealias RSAPublicKeyComponents = (modulus: Foundation.Data, exponent: Foundation.Data)
+public typealias RSAPrivateKeyComponents = (modulus: Foundation.Data, exponent: Foundation.Data, privateExponent: Foundation.Data)
+public protocol ExpressibleAsRSAPublicKeyComponents {
+  static func representing(rsaPublicKeyComponents components: SecureKey3DS.RSAPublicKeyComponents) throws -> Self
+  func rsaPublicKeyComponents() throws -> SecureKey3DS.RSAPublicKeyComponents
+}
+public protocol ExpressibleAsRSAPrivateKeyComponents {
+  static func representing(rsaPrivateKeyComponents components: SecureKey3DS.RSAPrivateKeyComponents) throws -> Self
+  func rsaPrivateKeyComponents() throws -> SecureKey3DS.RSAPrivateKeyComponents
+}
+public struct RSAPublicKey : SecureKey3DS.JWK {
+  public let keyType: SecureKey3DS.JWKKeyType
+  public let parameters: [Swift.String : Swift.String]
+  public let modulus: Swift.String
+  public let exponent: Swift.String
+  public init(modulus: Swift.String, exponent: Swift.String, additionalParameters parameters: [Swift.String : Swift.String] = [:])
+  public init(publicKey: SecureKey3DS.ExpressibleAsRSAPublicKeyComponents, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(data: Foundation.Data) throws
+  public func converted<T>(to type: T.Type) throws -> T where T : SecureKey3DS.ExpressibleAsRSAPublicKeyComponents
+}
+public struct RSAPrivateKey : SecureKey3DS.JWK {
+  public let keyType: SecureKey3DS.JWKKeyType
+  public let parameters: [Swift.String : Swift.String]
+  public let modulus: Swift.String
+  public let exponent: Swift.String
+  public let privateExponent: Swift.String
+  public init(modulus: Swift.String, exponent: Swift.String, privateExponent: Swift.String, additionalParameters parameters: [Swift.String : Swift.String] = [:])
+  public init(privateKey: SecureKey3DS.ExpressibleAsRSAPrivateKeyComponents, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(data: Foundation.Data) throws
+  public func converted<T>(to type: T.Type) throws -> T where T : SecureKey3DS.ExpressibleAsRSAPrivateKeyComponents
+}
+public typealias RSAKeyPair = SecureKey3DS.RSAPrivateKey
+extension SecureKey3DS.SymmetricKey : Swift.Encodable {
+  public func encode(to encoder: Swift.Encoder) throws
+}
+extension SecureKey3DS.SymmetricKey : Swift.Decodable {
+  public init(from decoder: Swift.Decoder) throws
+}
+public struct CBC : SecureKey3DS.BlockMode {
+  public enum Error : Swift.Error {
+    case invalidInitializationVector
+    public static func == (a: SecureKey3DS.CBC.Error, b: SecureKey3DS.CBC.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public let options: SecureKey3DS.BlockModeOption
+  public init(iv: Swift.Array<Swift.UInt8>)
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+extension SecureKey3DS.Blowfish {
+  convenience public init(key: Swift.String, iv: Swift.String, padding: SecureKey3DS.Padding = .pkcs7) throws
+}
+final public class Scrypt {
+  public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>, dkLen: Swift.Int, N: Swift.Int, r: Swift.Int, p: Swift.Int) throws
+  final public func calculate() throws -> [Swift.UInt8]
+  @objc deinit
+}
+public protocol Cryptor {
+  mutating func seek(to: Swift.Int) throws
+}
+public struct JWE {
+  public let header: SecureKey3DS.JWEHeader
+  public let encryptedKey: Foundation.Data
+  public let initializationVector: Foundation.Data
+  public let ciphertext: Foundation.Data
+  public let authenticationTag: Foundation.Data
+  public var compactSerializedString: Swift.String {
+    get
+  }
+  public var compactSerializedData: Foundation.Data {
+    get
+  }
+  public init<KeyType>(header: SecureKey3DS.JWEHeader, payload: SecureKey3DS.Payload, encrypter: SecureKey3DS.Encrypter<KeyType>) throws
+  public init(compactSerialization: Swift.String) throws
+  public init(compactSerialization: Foundation.Data) throws
+  @available(*, deprecated, message: "Use `decrypt(using decrypter:)` instead")
+  public func decrypt<KeyType>(with key: KeyType) throws -> SecureKey3DS.Payload
+  public func decrypt(using decrypter: SecureKey3DS.Decrypter) throws -> SecureKey3DS.Payload
+}
+extension SecureKey3DS.JWE : SecureKey3DS.CompactSerializable {
+  public func serialize(to serializer: inout SecureKey3DS.CompactSerializer)
+}
+extension SecureKey3DS.JWE : SecureKey3DS.CompactDeserializable {
+  public static var componentCount: Swift.Int {
+    get
+  }
+  public init(from deserializer: SecureKey3DS.CompactDeserializer) throws
+}
+public protocol CipherModeWorker {
+  var cipherOperation: SecureKey3DS.CipherOperationOnBlock { get }
+  var additionalBufferSize: Swift.Int { get }
+  mutating func encrypt(block plaintext: Swift.ArraySlice<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  mutating func decrypt(block ciphertext: Swift.ArraySlice<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+}
+public protocol BlockModeWorker : SecureKey3DS.CipherModeWorker {
+  var blockSize: Swift.Int { get }
+}
+public protocol CounterModeWorker : SecureKey3DS.CipherModeWorker {
+  associatedtype Counter
+  var counter: Self.Counter { get set }
+}
+public protocol SeekableModeWorker : SecureKey3DS.CipherModeWorker {
+  mutating func seek(to position: Swift.Int) throws
+}
+public protocol StreamModeWorker : SecureKey3DS.CipherModeWorker {
+}
+public protocol FinalizingEncryptModeWorker : SecureKey3DS.CipherModeWorker {
+  mutating func finalize(encrypt ciphertext: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.ArraySlice<Swift.UInt8>
+}
+public protocol FinalizingDecryptModeWorker : SecureKey3DS.CipherModeWorker {
+  @discardableResult
+  mutating func willDecryptLast(bytes ciphertext: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.ArraySlice<Swift.UInt8>
+  mutating func didDecryptLast(bytes plaintext: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.ArraySlice<Swift.UInt8>
+  mutating func finalize(decrypt plaintext: Swift.ArraySlice<Swift.UInt8>) throws -> Swift.ArraySlice<Swift.UInt8>
+}
+public enum Bit : Swift.Int {
+  case zero
+  case one
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol Cryptors : AnyObject {
+  func makeEncryptor() throws -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+  func makeDecryptor() throws -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+  static func randomIV(_ blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+}
+extension SecureKey3DS.Cryptors {
+  public static func randomIV(_ blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+}
+public protocol AEAD {
+  static var kLen: Swift.Int { get }
+  static var ivRange: Swift.Range<Swift.Int> { get }
+}
+extension Swift.Array where Element == Swift.UInt8 {
+  public func toBase64() -> Swift.String?
+  public init(base64: Swift.String)
+}
+extension SecureKey3DS.AES : SecureKey3DS.Cryptors {
+  final public func makeEncryptor() throws -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+  final public func makeDecryptor() throws -> SecureKey3DS.Cryptor & SecureKey3DS.Updatable
+}
+public enum JOSESwiftError : Swift.Error {
+  case signingFailed(description: Swift.String)
+  case verifyingFailed(description: Swift.String)
+  case signatureInvalid
+  case encryptingFailed(description: Swift.String)
+  case decryptingFailed(description: Swift.String)
+  case wrongDataEncoding(data: Foundation.Data)
+  case invalidCompactSerializationComponentCount(count: Swift.Int)
+  case componentNotValidBase64URL(component: Swift.String)
+  case componentCouldNotBeInitializedFromData(data: Foundation.Data)
+  case couldNotConstructJWK
+  case modulusNotBase64URLUIntEncoded
+  case exponentNotBase64URLUIntEncoded
+  case privateExponentNotBase64URLUIntEncoded
+  case symmetricKeyNotBase64URLEncoded
+  case xNotBase64URLUIntEncoded
+  case yNotBase64URLUIntEncoded
+  case privateKeyNotBase64URLUIntEncoded
+  case invalidCurveType
+  case compressedCurvePointsUnsupported
+  case invalidCurvePointOctetLength
+  case compressionFailed
+  case decompressionFailed
+  case compressionAlgorithmNotSupported
+  case rawDataMustBeGreaterThanZero
+  case compressedDataMustBeGreaterThanZero
+}
+extension SecureKey3DS.PKCS5 {
+  public struct PBKDF1 {
+    public enum Error : Swift.Error {
+      case invalidInput
+      case derivedKeyTooLong
+      public static func == (a: SecureKey3DS.PKCS5.PBKDF1.Error, b: SecureKey3DS.PKCS5.PBKDF1.Error) -> Swift.Bool
+      public func hash(into hasher: inout Swift.Hasher)
+      public var hashValue: Swift.Int {
+        get
+      }
+    }
+    public enum Variant {
+      case md5, sha1
+      public static func == (a: SecureKey3DS.PKCS5.PBKDF1.Variant, b: SecureKey3DS.PKCS5.PBKDF1.Variant) -> Swift.Bool
+      public func hash(into hasher: inout Swift.Hasher)
+      public var hashValue: Swift.Int {
+        get
+      }
+    }
+    public init(password: Swift.Array<Swift.UInt8>, salt: Swift.Array<Swift.UInt8>, variant: SecureKey3DS.PKCS5.PBKDF1.Variant = .sha1, iterations: Swift.Int = 4096, keyLength: Swift.Int? = nil) throws
+    public func calculate() -> Swift.Array<Swift.UInt8>
+  }
+}
+public protocol CompactDeserializable {
+  static var componentCount: Swift.Int { get }
+  init(from deserializer: SecureKey3DS.CompactDeserializer) throws
+}
+public protocol CompactDeserializer {
+  func deserialize<T>(_ type: T.Type, at index: Swift.Int) throws -> T where T : SecureKey3DS.DataConvertible
+}
+public struct JOSEDeserializer {
+  public init()
+  public func deserialize<T>(_ type: T.Type, fromCompactSerialization compactSerialization: Swift.String) throws -> T where T : SecureKey3DS.CompactDeserializable
+}
+public enum ComponentCompactSerializedIndex {
+}
+public protocol ThreeDSClientDelegate : AnyObject {
+  func onResponds3DSecure(response: SecureKey3DS.TDSClientResponse)
+}
+public struct ECB : SecureKey3DS.BlockMode {
+  public let options: SecureKey3DS.BlockModeOption
+  public init()
+  public func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public typealias SymmetricKeyComponents = (Foundation.Data)
+public protocol ExpressibleAsSymmetricKeyComponents {
+  static func representing(symmetricKeyComponents components: SecureKey3DS.SymmetricKeyComponents) throws -> Self
+  func symmetricKeyComponents() throws -> SecureKey3DS.SymmetricKeyComponents
+}
+public struct SymmetricKey : SecureKey3DS.JWK {
+  public let keyType: SecureKey3DS.JWKKeyType
+  public let parameters: [Swift.String : Swift.String]
+  public let key: Swift.String
+  public init(key: Foundation.Data, additionalParameters parameters: [Swift.String : Swift.String] = [:])
+  public init(key: SecureKey3DS.ExpressibleAsSymmetricKeyComponents, additionalParameters parameters: [Swift.String : Swift.String] = [:]) throws
+  public init(data: Foundation.Data) throws
+  public func converted<T>(to type: T.Type) throws -> T where T : SecureKey3DS.ExpressibleAsSymmetricKeyComponents
+}
+public struct Payload : SecureKey3DS.DataConvertible {
+  public init(_ payload: Foundation.Data)
+  public func data() -> Foundation.Data
+}
+extension Security.SecKey : SecureKey3DS.ExpressibleAsECPublicKeyComponents {
+  public static func representing(ecPublicKeyComponents components: SecureKey3DS.ECPublicKeyComponents) throws -> Self
+  public func ecPublicKeyComponents() throws -> SecureKey3DS.ECPublicKeyComponents
+}
+public protocol RadioButtonDelegate : AnyObject {
+  func radioButtonDidSelect(_ button: SecureKey3DS.RadioButton)
+  func radioButtonDidDeselect(_ button: SecureKey3DS.RadioButton)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class RadioButton : SecureKey3DS.RadioCheckboxBaseButton {
+  @_Concurrency.MainActor(unsafe) weak public var delegate: SecureKey3DS.RadioButtonDelegate?
+  @_Concurrency.MainActor(unsafe) public var radioCircle: SecureKey3DS.RadioButtonCircleStyle {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) public var radioButtonColor: SecureKey3DS.RadioButtonColor! {
+    get
+    set
+  }
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @objc deinit
+}
+final public class HMAC : SecureKey3DS.Authenticator {
+  public enum Error : Swift.Error {
+    case authenticateError
+    case invalidInput
+    public static func == (a: SecureKey3DS.HMAC.Error, b: SecureKey3DS.HMAC.Error) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum Variant {
+    case sha1, sha256, sha384, sha512, md5
+    public static func == (a: SecureKey3DS.HMAC.Variant, b: SecureKey3DS.HMAC.Variant) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(key: Swift.Array<Swift.UInt8>, variant: SecureKey3DS.HMAC.Variant = .md5)
+  final public func authenticate(_ bytes: Swift.Array<Swift.UInt8>) throws -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+extension SecureKey3DS.HMAC {
+  convenience public init(key: Swift.String, variant: SecureKey3DS.HMAC.Variant = .md5) throws
+}
+public protocol PaddingProtocol {
+  func add(to: Swift.Array<Swift.UInt8>, blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+  func remove(from: Swift.Array<Swift.UInt8>, blockSize: Swift.Int?) -> Swift.Array<Swift.UInt8>
+}
+public enum Padding : SecureKey3DS.PaddingProtocol {
+  case noPadding, zeroPadding, pkcs7, pkcs5
+  public func add(to: Swift.Array<Swift.UInt8>, blockSize: Swift.Int) -> Swift.Array<Swift.UInt8>
+  public func remove(from: Swift.Array<Swift.UInt8>, blockSize: Swift.Int?) -> Swift.Array<Swift.UInt8>
+  public static func == (a: SecureKey3DS.Padding, b: SecureKey3DS.Padding) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum JWKParameter : Swift.String, Swift.CodingKey {
+  case keyType
+  case keyUse
+  case keyOperations
+  case algorithm
+  case keyIdentifier
+  case X509URL
+  case X509CertificateChain
+  case X509CertificateSHA1Thumbprint
+  case X509CertificateSHA256Thumbprint
+  public init?(rawValue: Swift.String)
+  public init?(stringValue: Swift.String)
+  public init?(intValue: Swift.Int)
+  public typealias RawValue = Swift.String
+  public var intValue: Swift.Int? {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+}
+public enum RSAParameter : Swift.String, Swift.CodingKey {
+  case modulus
+  case exponent
+  case privateExponent
+  public init?(rawValue: Swift.String)
+  public init?(stringValue: Swift.String)
+  public init?(intValue: Swift.Int)
+  public typealias RawValue = Swift.String
+  public var intValue: Swift.Int? {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+}
+public enum SymmetricKeyParameter : Swift.String, Swift.CodingKey {
+  case key
+  public init?(rawValue: Swift.String)
+  public init?(stringValue: Swift.String)
+  public init?(intValue: Swift.Int)
+  public typealias RawValue = Swift.String
+  public var intValue: Swift.Int? {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+}
+public enum ECParameter : Swift.String, Swift.CodingKey {
+  case curve
+  case x
+  case y
+  case privateKey
+  public init?(rawValue: Swift.String)
+  public init?(stringValue: Swift.String)
+  public init?(intValue: Swift.Int)
+  public typealias RawValue = Swift.String
+  public var intValue: Swift.Int? {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+}
+@available(*, renamed: "Digest")
+public typealias HashDigest = SecureKey3DS.Digest
+public struct Digest {
+  public static func md5(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha1(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha224(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha256(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha384(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha512(_ bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  public static func sha2(_ bytes: Swift.Array<Swift.UInt8>, variant: SecureKey3DS.SHA2.Variant) -> Swift.Array<Swift.UInt8>
+  public static func sha3(_ bytes: Swift.Array<Swift.UInt8>, variant: SecureKey3DS.SHA3.Variant) -> Swift.Array<Swift.UInt8>
+}
+public protocol JWEEncryptor {
+  func encrypt(plaintext: Foundation.Data, key: SecureKey3DS.JWK, header: SecureKey3DS.JSONWebEncryptionHeader, options: [Swift.String : Any]) throws -> (header: SecureKey3DS.JSONWebEncryptionHeader, encryptedKey: Foundation.Data, iv: Foundation.Data, ciphertext: Foundation.Data, tag: Foundation.Data)
+  func decrypt(key: SecureKey3DS.JWK, header: SecureKey3DS.JSONWebEncryptionHeader, encryptedKey: Foundation.Data, iv: Foundation.Data, ciphertext: Foundation.Data, tag: Foundation.Data, aad: Foundation.Data) throws -> Foundation.Data
+}
+@_hasMissingDesignatedInitializers final public class Checksum {
+  @objc deinit
+}
+extension SecureKey3DS.Checksum {
+  public static func crc32(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  public static func crc32c(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt32? = nil, reflect: Swift.Bool = true) -> Swift.UInt32
+  public static func crc16(_ message: Swift.Array<Swift.UInt8>, seed: Swift.UInt16? = nil) -> Swift.UInt16
+}
+public struct RadioButtonColor {
+  public init(active: UIKit.UIColor, inactive: UIKit.UIColor)
+}
+extension SecureKey3DS.Rabbit {
+  convenience public init(key: Swift.String) throws
+  convenience public init(key: Swift.String, iv: Swift.String) throws
+}
+public protocol JSONWebEncryption {
+  var header: SecureKey3DS.JSONWebEncryptionHeader { get }
+  var encryptedKey: Foundation.Data { get }
+  var initializationVector: Foundation.Data { get }
+  var ciphertext: Foundation.Data { get }
+  var authenticationTag: Foundation.Data { get }
+  var compactSerializedString: Swift.String { get }
+  var compactSerializedData: Foundation.Data { get }
+  var additionalAuthenticatedData: Foundation.Data { get }
+  func decrypt(key: SecureKey3DS.JWK) throws -> Foundation.Data
+}
+final public class SHA1 {
+  public init()
+  final public func calculate(for bytes: Swift.Array<Swift.UInt8>) -> Swift.Array<Swift.UInt8>
+  @objc deinit
+}
+extension SecureKey3DS.SHA1 : SecureKey3DS.Updatable {
+  @discardableResult
+  final public func update(withBytes bytes: Swift.ArraySlice<Swift.UInt8>, isLast: Swift.Bool = false) throws -> Swift.Array<Swift.UInt8>
+}
+public enum PKCS7 {
+}
+public typealias CipherOperationOnBlock = (_ block: Swift.ArraySlice<Swift.UInt8>) -> Swift.Array<Swift.UInt8>?
+public protocol BlockMode {
+  var options: SecureKey3DS.BlockModeOption { get }
+  func worker(blockSize: Swift.Int, cipherOperation: @escaping SecureKey3DS.CipherOperationOnBlock) throws -> SecureKey3DS.CipherModeWorker
+}
+public struct BlockModeOption : Swift.OptionSet {
+  public let rawValue: Swift.Int
+  public init(rawValue: Swift.Int)
+  public typealias ArrayLiteralElement = SecureKey3DS.BlockModeOption
+  public typealias Element = SecureKey3DS.BlockModeOption
+  public typealias RawValue = Swift.Int
+}
+extension SecureKey3DS.AES {
+  convenience public init(key: Swift.String, iv: Swift.String, padding: SecureKey3DS.Padding = .pkcs7) throws
+}
+public protocol CompactSerializable {
+  func serialize(to serializer: inout SecureKey3DS.CompactSerializer)
+}
+public protocol CompactSerializer {
+  var components: [SecureKey3DS.DataConvertible] { get }
+  mutating func serialize<T>(_ object: T) where T : SecureKey3DS.DataConvertible
+}
+public struct JOSESerializer {
+  public func serialize<T>(compact object: T) -> Swift.String where T : SecureKey3DS.CompactSerializable
+}
+extension Security.SecKey : SecureKey3DS.ExpressibleAsECPrivateKeyComponents {
+  public static func representing(ecPrivateKeyComponents components: SecureKey3DS.ECPrivateKeyComponents) throws -> Self
+  public func ecPrivateKeyComponents() throws -> SecureKey3DS.ECPrivateKeyComponents
+}
+extension SecureKey3DS.GCM.Mode : Swift.Equatable {}
+extension SecureKey3DS.GCM.Mode : Swift.Hashable {}
+extension SecureKey3DS.GCM.Error : Swift.Equatable {}
+extension SecureKey3DS.GCM.Error : Swift.Hashable {}
+extension SecureKey3DS.MessageCategory : Swift.Equatable {}
+extension SecureKey3DS.MessageCategory : Swift.Hashable {}
+extension SecureKey3DS.Blowfish.Error : Swift.Equatable {}
+extension SecureKey3DS.Blowfish.Error : Swift.Hashable {}
+extension SecureKey3DS.AES.Error : Swift.Equatable {}
+extension SecureKey3DS.AES.Error : Swift.Hashable {}
+extension SecureKey3DS.AES.Variant : Swift.Equatable {}
+extension SecureKey3DS.AES.Variant : Swift.Hashable {}
+extension SecureKey3DS.AES.Variant : Swift.RawRepresentable {}
+extension SecureKey3DS.JWKKeyType : Swift.Equatable {}
+extension SecureKey3DS.JWKKeyType : Swift.Hashable {}
+extension SecureKey3DS.JWKKeyType : Swift.RawRepresentable {}
+extension SecureKey3DS.PCBC.Error : Swift.Equatable {}
+extension SecureKey3DS.PCBC.Error : Swift.Hashable {}
+extension SecureKey3DS.CTR : SecureKey3DS.BlockMode {}
+extension SecureKey3DS.CTR.Error : Swift.Equatable {}
+extension SecureKey3DS.CTR.Error : Swift.Hashable {}
+extension SecureKey3DS.CipherError : Swift.Equatable {}
+extension SecureKey3DS.CipherError : Swift.Hashable {}
+extension SecureKey3DS.TDSEnvironment : Swift.Equatable {}
+extension SecureKey3DS.TDSEnvironment : Swift.Hashable {}
+extension SecureKey3DS.CFB.Error : Swift.Equatable {}
+extension SecureKey3DS.CFB.Error : Swift.Hashable {}
+extension SecureKey3DS.OFB.Error : Swift.Equatable {}
+extension SecureKey3DS.OFB.Error : Swift.Hashable {}
+extension SecureKey3DS.Rabbit.Error : Swift.Equatable {}
+extension SecureKey3DS.Rabbit.Error : Swift.Hashable {}
+extension SecureKey3DS.HMACAlgorithm : Swift.Equatable {}
+extension SecureKey3DS.HMACAlgorithm : Swift.Hashable {}
+extension SecureKey3DS.HMACAlgorithm : Swift.RawRepresentable {}
+extension SecureKey3DS.JWSHeader : SecureKey3DS.DataConvertible {}
+extension SecureKey3DS.ChaCha20.Error : Swift.Equatable {}
+extension SecureKey3DS.ChaCha20.Error : Swift.Hashable {}
+extension SecureKey3DS.CBCMAC.Error : Swift.Equatable {}
+extension SecureKey3DS.CBCMAC.Error : Swift.Hashable {}
+extension SecureKey3DS.Poly1305.Error : Swift.Equatable {}
+extension SecureKey3DS.Poly1305.Error : Swift.Hashable {}
+extension SecureKey3DS.SHA3.Variant : Swift.Equatable {}
+extension SecureKey3DS.SHA3.Variant : Swift.Hashable {}
+extension SecureKey3DS.SignatureAlgorithm : Swift.Equatable {}
+extension SecureKey3DS.SignatureAlgorithm : Swift.Hashable {}
+extension SecureKey3DS.SignatureAlgorithm : Swift.RawRepresentable {}
+extension SecureKey3DS.AsymmetricKeyAlgorithm : Swift.Equatable {}
+extension SecureKey3DS.AsymmetricKeyAlgorithm : Swift.Hashable {}
+extension SecureKey3DS.AsymmetricKeyAlgorithm : Swift.RawRepresentable {}
+extension SecureKey3DS.SymmetricKeyAlgorithm : Swift.Equatable {}
+extension SecureKey3DS.SymmetricKeyAlgorithm : Swift.Hashable {}
+extension SecureKey3DS.SymmetricKeyAlgorithm : Swift.RawRepresentable {}
+extension SecureKey3DS.CompressionAlgorithm : Swift.Equatable {}
+extension SecureKey3DS.CompressionAlgorithm : Swift.Hashable {}
+extension SecureKey3DS.CompressionAlgorithm : Swift.RawRepresentable {}
+extension SecureKey3DS.ECCurveType : Swift.Equatable {}
+extension SecureKey3DS.ECCurveType : Swift.Hashable {}
+extension SecureKey3DS.ECCurveType : Swift.RawRepresentable {}
+extension SecureKey3DS.PKCS5.PBKDF2.Error : Swift.Equatable {}
+extension SecureKey3DS.PKCS5.PBKDF2.Error : Swift.Hashable {}
+extension SecureKey3DS.ECCompression : Swift.Equatable {}
+extension SecureKey3DS.ECCompression : Swift.Hashable {}
+extension SecureKey3DS.ECCompression : Swift.RawRepresentable {}
+extension SecureKey3DS.HKDF.Error : Swift.Equatable {}
+extension SecureKey3DS.HKDF.Error : Swift.Hashable {}
+extension SecureKey3DS.JWEHeader : SecureKey3DS.DataConvertible {}
+extension SecureKey3DS.CCM : SecureKey3DS.BlockMode {}
+extension SecureKey3DS.CCM.Error : Swift.Equatable {}
+extension SecureKey3DS.CCM.Error : Swift.Hashable {}
+extension SecureKey3DS.SHA2.Variant : Swift.Equatable {}
+extension SecureKey3DS.SHA2.Variant : Swift.Hashable {}
+extension SecureKey3DS.CBC.Error : Swift.Equatable {}
+extension SecureKey3DS.CBC.Error : Swift.Hashable {}
+extension SecureKey3DS.Bit : Swift.Equatable {}
+extension SecureKey3DS.Bit : Swift.Hashable {}
+extension SecureKey3DS.Bit : Swift.RawRepresentable {}
+extension SecureKey3DS.PKCS5.PBKDF1.Error : Swift.Equatable {}
+extension SecureKey3DS.PKCS5.PBKDF1.Error : Swift.Hashable {}
+extension SecureKey3DS.PKCS5.PBKDF1.Variant : Swift.Equatable {}
+extension SecureKey3DS.PKCS5.PBKDF1.Variant : Swift.Hashable {}
+extension SecureKey3DS.HMAC.Error : Swift.Equatable {}
+extension SecureKey3DS.HMAC.Error : Swift.Hashable {}
+extension SecureKey3DS.HMAC.Variant : Swift.Equatable {}
+extension SecureKey3DS.HMAC.Variant : Swift.Hashable {}
+extension SecureKey3DS.Padding : Swift.Equatable {}
+extension SecureKey3DS.Padding : Swift.Hashable {}
+extension SecureKey3DS.JWKParameter : Swift.Equatable {}
+extension SecureKey3DS.JWKParameter : Swift.Hashable {}
+extension SecureKey3DS.JWKParameter : Swift.RawRepresentable {}
+extension SecureKey3DS.RSAParameter : Swift.Equatable {}
+extension SecureKey3DS.RSAParameter : Swift.Hashable {}
+extension SecureKey3DS.RSAParameter : Swift.RawRepresentable {}
+extension SecureKey3DS.SymmetricKeyParameter : Swift.Equatable {}
+extension SecureKey3DS.SymmetricKeyParameter : Swift.Hashable {}
+extension SecureKey3DS.SymmetricKeyParameter : Swift.RawRepresentable {}
+extension SecureKey3DS.ECParameter : Swift.Equatable {}
+extension SecureKey3DS.ECParameter : Swift.Hashable {}
+extension SecureKey3DS.ECParameter : Swift.RawRepresentable {}
