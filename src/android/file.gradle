@@ -29,6 +29,8 @@ dependencies {
     implementation 'com.madgag.spongycastle:pg:1.50.0.0'
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
     implementation 'com.nimbusds:nimbus-jose-jwt:7.0.1'
+	implementation 'com.android.support:multidex:2.0.1'
+
 
     implementation (name:'Paymev2',ext:'aar')
     implementation (name:'SecureKey3DS',ext:'aar')
