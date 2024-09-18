@@ -38,7 +38,7 @@ import com.alignet.payme.model.merchant.PaymeResponse;
 import com.alignet.payme.model.merchant.PaymeSettingData;
 import com.alignet.payme.model.merchant.PaymeWalletData;
 import com.alignet.payme.util.PaymeEnvironment;
-import com.google.firebase.analytics.FirebaseAnalytics;
+//import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 
 /**
@@ -46,7 +46,7 @@ import com.google.gson.Gson;
  */
 public class CordovaPluginPaymev2 extends CordovaPlugin implements PaymeClientDelegate {
 
-    private FirebaseAnalytics mFirebaseAnalytics;
+    //private FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "CordovaPluginPaymev2";
     private CallbackContext callbackContext = null;
 
@@ -56,8 +56,8 @@ public class CordovaPluginPaymev2 extends CordovaPlugin implements PaymeClientDe
         final Context context = this.cordova.getActivity().getApplicationContext();
         Log.d(TAG, "execute plugin");
         if (action.equals("initPayme")) {
-            mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
-            mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
+            //mFirebaseAnalytics = FirebaseAnalytics.getInstance(context);
+            //mFirebaseAnalytics.setAnalyticsCollectionEnabled(true);
             this.cordova.getActivity().runOnUiThread(() -> {
                 try{
                     Log.d(TAG,"Into runOnUiThread");
@@ -180,32 +180,32 @@ public class CordovaPluginPaymev2 extends CordovaPlugin implements PaymeClientDe
         switch (paymeInternalAction) {
             case PRESS_PAY_BUTTON : {
                 Log.d(notificate,"El usuario presionó el boton pagar exitosamente.");
-                mFirebaseAnalytics.logEvent("InPasarela",logEvent("PRESS_PAY_BUTTON","click","El usuario presionó el boton pagar exitosamente."));
+                //mFirebaseAnalytics.logEvent("InPasarela",logEvent("PRESS_PAY_BUTTON","click","El usuario presionó el boton pagar exitosamente."));
                 break;
             }
              case START_SCORING : {
                 Log.d(notificate,"Inicia el proceso de evaluación de riesgo.");
-                 mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_SCORING","scoring","Inicia el proceso de evaluación de riesgo."));
+                 //mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_SCORING","scoring","Inicia el proceso de evaluación de riesgo."));
                  break;
             }
             case END_SCORING : {
                 Log.d(notificate,"Termina el proceso de evaluación de riesgo.");
-                mFirebaseAnalytics.logEvent("InPasarela",logEvent("END_SCORING","scoring","Termina el proceso de evaluación de riesgo."));
+                //mFirebaseAnalytics.logEvent("InPasarela",logEvent("END_SCORING","scoring","Termina el proceso de evaluación de riesgo."));
                 break;
             }
             case START_TDS : {
                 Log.d(notificate,"Inicia el proceso de autenticación.");
-                mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_TDS","tds","Inicia el proceso de autenticación."));
+                //mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_TDS","tds","Inicia el proceso de autenticación."));
                 break;
             }
             case END_TDS : {
                 Log.d(notificate,"Termina el proceso de autenticación.");
-                mFirebaseAnalytics.logEvent("InPasarela",logEvent("END_TDS","tds","Termina el proceso de autenticación."));
+                //mFirebaseAnalytics.logEvent("InPasarela",logEvent("END_TDS","tds","Termina el proceso de autenticación."));
                 break;
             }
             case START_AUTHORIZATION : {
                 Log.d(notificate, "Se inicia la autorización.");
-                mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_AUTHORIZATION","authorization","Se inicia la autorización."));
+                //mFirebaseAnalytics.logEvent("InPasarela",logEvent("START_AUTHORIZATION","authorization","Se inicia la autorización."));
                 break;
             }
             default: {

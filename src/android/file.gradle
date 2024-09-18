@@ -30,7 +30,6 @@ dependencies {
     implementation 'org.bouncycastle:bcprov-jdk15on:1.56'
     implementation 'com.nimbusds:nimbus-jose-jwt:7.0.1'
 
-
     implementation (name:'Paymev2',ext:'aar')
     implementation (name:'SecureKey3DS',ext:'aar')
     implementation (name:'MastercardSonic',ext:'aar')
@@ -38,9 +37,9 @@ dependencies {
 }
 
 android {
-  compileSdkVersion 28
+  //compileSdkVersion 28
   defaultConfig {
-      targetSdkVersion 28
+      //targetSdkVersion 28
       multiDexEnabled true
   }
 }
